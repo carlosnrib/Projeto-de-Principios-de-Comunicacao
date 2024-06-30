@@ -1,23 +1,23 @@
 % Definindo parâmetros
-fc = 0.5e6; % Frequência da portadora em Hz (0.5 MHz)
-fsamp = 50e6; % Frequência de amostragem em Hz (50 MHz)
-t_end = 200e-6; % Tempo final em segundos (200 µs)
+fc = 0.5e6; 
+fsamp = 50e6; 
+t_end = 200e-6; 
 
 % Definindo o intervalo de tempo
-t = linspace(0, t_end, round(t_end * fsamp)); % Vetor de tempo em segundos
-x = (t * 1e6) - 100; % Argumento da função sinc centrado em 100 µs
+t = linspace(0, t_end, round(t_end * fsamp)); 
+x = (t * 1e6) - 100; 
 
 % Calculando o sinal de mensagem
 mt = sinc(x);
 
 % Calculando a portadora
-ct = cos(2 * pi * fc * t); % Tempo em segundos para a função cosseno
+ct = cos(2 * pi * fc * t); 
 
 % Modulação do sinal de mensagem
 st = mt .* ct;
 
 % Demodulação do sinal modulado
-rt = st .* ct; % Multiplicando o sinal modulado pela mesma portadora
+rt = st .* ct; 
 
 % Calculando a FFT do sinal demodulado sem filtragem
 N = length(rt);
@@ -39,9 +39,9 @@ mt_recovered = real(mt_recovered); % Pegando a parte real do sinal
 
 % Comparando graficamente a mensagem original e a recuperada
 figure;
-plot(t * 1e6, mt, 'b', 'DisplayName', 'Mensagem Original'); % Plotando a mensagem original em azul
+plot(t * 1e6, mt, 'b', 'DisplayName', 'Mensagem Original'); 
 hold on;
-plot(t * 1e6, mt_recovered, 'r', 'DisplayName', 'Mensagem Recuperada'); % Plotando a mensagem recuperada em vermelho
+plot(t * 1e6, mt_recovered, 'r', 'DisplayName', 'Mensagem Recuperada'); 
 hold off;
 title('Comparação entre a Mensagem Original e a Mensagem Recuperada');
 xlabel('Tempo (\mus)');
@@ -54,6 +54,5 @@ grid on;
 correlation = corrcoef(mt, mt_recovered);
 correlation_value = correlation(1, 2);
 
-% Exibindo o valor da correlação
 disp(['Coeficiente de correlação entre a mensagem original e a recuperada: ', num2str(correlation_value, '%.10f')]);
 
